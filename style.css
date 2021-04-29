@@ -1,0 +1,62 @@
+/*Adding some custom colors to style the input form*/
+:root {
+  --color-form_input: #ffb545;
+  --color-sidebar_body: black;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: content-box;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  font-family: "Montserrat", sans-serif;
+}
+
+/* GENRAL */
+
+/* SIDEBAR */
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-sidebar_body);
+}
+
+/* FORM */
+.form {
+  font-size: 1.5rem;
+  background-color: #ffb545;
+  border-radius: 5px;
+  padding: 1.5rem 2.75rem;
+  margin-bottom: 1.75rem;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 2.5rem;
+
+  /* Match height and activity boxes */
+  height: 9.25rem;
+  transition: all 0.5s, transform 1ms;
+}
+
+.form_row {
+  display: flex;
+  align-items: center;
+}
+
+/* MAP */
+
+#map {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  height: 100%;
+}
