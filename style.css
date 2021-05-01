@@ -60,3 +60,7 @@ body {
   flex: 1;
   height: 100%;
 }
+
+.leaflet-popup .leaflet-popup-content-wrapper {
+  border-left: 10px solid red;
+}
