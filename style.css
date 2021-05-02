@@ -62,5 +62,19 @@ body {
 }
 
 .leaflet-popup .leaflet-popup-content-wrapper {
-  border-left: 10px solid red;
+  border-left: 10px solid limegreen;
+}
+
+.day_length {
+  background-color: yellow;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.api_result {
+  font-weight: 700;
+}
+
+.coord_span {
+  margin-bottom: 20px;
 }

@@ -32,21 +32,35 @@
         <form class="form">
           <div class="form_row">
             <label class="form_label">Latitude</label>
-            <input type="number" class="form_input" id="lat" />
+            <input type="number" class="form_input" id="lat" step="any" />
           </div>
           <div class="form_row">
             <label class="form_label">Longitude</label>
-            <input type="number" class="form_input" id="long" />
+            <input type="number" class="form_input" id="long" step="any" />
           </div>
           <div class="form_row">
             <label class="form_label">Date</label>
             <input type="date" class="form_input" id="date" />
+            <input type="submit" value="Get Day length" />
           </div>
         </form>
       </ul>
+      <ul class="location_data">
+        <li class="latitude" style="color: white">Test</li>
+        <li class="longitude" style="color: white">Test</li>
+        <li style="color: white">Timezone: UTC</li>
+      </ul>
     </div>
     <div id="map"></div>
+    <!--https://www.chartjs.org/docs/latest/getting-started/
+    
+    -->
+    <div>
+      <canvas id="myChart" width="50" height="50"></canvas>
+    </div>
   </body>
+  <!--Chart.js CDN-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
   <!--JQUERY CDN-->
   <script
     src="https://code.jquery.com/jquery-3.6.0.min.js"
