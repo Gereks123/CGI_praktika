@@ -1,11 +1,17 @@
-//loading in the map
-
 //Global variables to use
+const chart_beginning = document.getElementById("chart_beginning");
+const chartDates = document.querySelector(".chart_dates");
+const chart_ending = document.getElementById("chart_ending");
+const modal = document.querySelector(".modal");
+const overlay = document.querySelector(".overlay");
+const btnCloseModal = document.querySelector(".close-modal");
+const btnOpenModal = document.querySelector(".show-modal");
 let form = document.querySelector(".form");
 let latitude;
 let longitude;
 let date;
 let map = L.map("map");
+let map_html = document.getElementById("map");
 let coords = [latitude, longitude];
 let api_answer;
 let zoomLevel;
@@ -32,17 +38,20 @@ function loadAPI(latitude, longitude, date) {
   }
 
   //Ajax request from the api
-  let api_vastus = $.ajax({
+  let api = $.ajax({
     url: url,
     contentType: "application/json",
     dataType: "jsonp",
     success: function (data) {
-      api_answer = data;
-      //console.log(api_answer);
+      api_answer = data.results;
     },
   });
+  //API answer object and then add the lat, longitude and date for returning
 
-  return api_vastus;
+  api_answer.lat = latitude;
+  api_answer.long = longitude;
+  api_answer.date = date;
+  return api_answer;
 }
 
 //event listener for form submitting
@@ -100,15 +109,22 @@ function loadPosition(lat, long, date) {
     .setPopupContent(
       `
      Latitude:<h3>${latitude}</h3>Longitude:<h3>${longitude}</h3>Timezone:<h3 class="coord_span">UTC</h3>
-     <span class="day_length">Day Length: ${api_answer.results.day_length}</span><br>
-     <span class="api_result">Sunrise:</span> ${api_answer.results.sunrise}<br>
-     <span class="api_result">Sunset:</span> ${api_answer.results.sunset}`
+     <span class="day_length">Day Length: ${api_answer.day_length}</span><br>
+     <span class="api_result">Sunrise:</span> ${api_answer.sunrise}<br>
+     <span class="api_result">Sunset:</span> ${api_answer.sunset}`
     )
     .openPopup();
 
   //binds the view straight to the given location
   map.setView([latitude, longitude], zoomLevel);
+
+  let coordinates = [latitude, longitude, date];
+
+  return coordinates;
 }
+
+//Map initial load.
+loadMap(58.7523778, 25.3319078, 7);
 
 //Display marker and the location data on click
 function clickMap() {
@@ -118,37 +134,91 @@ function clickMap() {
 
     loadAPI(latitude, longitude);
     loadPosition(latitude, longitude);
-
-    console.log(map);
-    //For displaying the data to the client on the sidebar
-    answer_latitude.innerHTML = e.latlng.lat;
-    answer_longitude.innerHTML = e.latlng.lng;
   });
 }
 clickMap();
 
-//Map initial load.
-loadMap(58.7523778, 25.3319078, 7);
+function LoadChart(date1, date2) {
+  //We get the data from given date inputs
+  date1 = chart_beginning.value;
+  date2 = chart_ending.value;
 
-//Chart data from chart.js
-const labels = ["Katse1", "Katse2", "Katse3", "Katse5"];
+  //Chart data for x-axis
+  const labels = ["Katse1", "Katse2", "Katse3", "Katse5"];
 
-const data = {
-  labels: labels,
-  datasets: [
-    {
-      label: "TEST LABEL",
-      backgroundColor: "black",
-      borderColor: "white",
-      data: [1, 40, 35, 21, 20],
-    },
-  ],
+  const data = {
+    labels: labels, //Data for x-axis
+    datasets: [
+      {
+        label: "TEST LABEL",
+        backgroundColor: "black", //The dots color
+        borderColor: "red", //Color for the line
+        data: [1, 40, 35, 21, 20], //Data to display on y-axis
+      },
+    ],
+  };
+
+  const config = {
+    type: "line",
+    data,
+    options: {},
+  };
+
+  //Display the chart
+  const Day_Length_Chart = new Chart(
+    document.getElementById("myChart"),
+    config
+  );
+
+  return Day_Length_Chart;
+}
+
+//Chart modal window popup content
+const openModal = function () {
+  modal.classList.remove("hidden");
+  overlay.classList.remove("hidden");
+  map_html.classList.add("hidden");
 };
 
-const config = {
-  type: "line",
-  data,
-  options: {},
+const closeModal = function () {
+  modal.classList.add("hidden");
+  overlay.classList.add("hidden");
+  map_html.classList.remove("hidden");
+};
+// For displaying the chart and its data
+btnOpenModal.addEventListener("click", openModal);
+btnCloseModal.addEventListener("click", closeModal);
+overlay.addEventListener("click", closeModal); //You can click on the gray area to exit the chart area
+
+// You can exit the chart by clicking on the overlay (gray) area
+overlay.addEventListener("click", closeModal());
+
+//Prevent submit default behaviour
+chartDates.addEventListener("submit", function (e) {
+  e.preventDefault();
+  //let chart_API = loadAPI();
+
+  LoadChart();
+});
+
+/*--------------CHART ENDS HERE---------------*/
+
+// Returns an array of dates between the two dates. Kuupäevade funktsiooni leidsin siit:https://gist.github.com/miguelmota/7905510
+/*var getDates = function (startDate, endDate) {
+  var dates = [],
+    currentDate = startDate,
+    addDays = function (days) {
+      var date = new Date(this.valueOf());
+      date.setDate(date.getDate() + days);
+      return date;
+    };
+  while (currentDate <= endDate) {
+    dates.push(currentDate);
+    currentDate = addDays.call(currentDate, 1);
+  }
+  return dates;
 };
 
-var Day_Length_Chart = new Chart(document.getElementById("myChart"), config);
+// Usage
+var dates = getDates(new Date(2013, 10, 22), new Date(2013, 11, 25));
+dates.forEach(function (date) {});*/

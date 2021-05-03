@@ -41,23 +41,37 @@
           <div class="form_row">
             <label class="form_label">Date</label>
             <input type="date" class="form_input" id="date" />
-            <input type="submit" value="Get Day length" />
+            <input type="submit" value="Get Day length" id="get_marker" />
           </div>
         </form>
       </ul>
-      <ul class="location_data">
+      <button class="show-modal">Show Day Length Graph</button>
+      <ul class="location_data hidden">
         <li class="latitude" style="color: white">Test</li>
         <li class="longitude" style="color: white">Test</li>
         <li style="color: white">Timezone: UTC</li>
       </ul>
     </div>
     <div id="map"></div>
-    <!--https://www.chartjs.org/docs/latest/getting-started/
-    
-    -->
-    <div>
-      <canvas id="myChart" width="50" height="50"></canvas>
+
+    <!--https://www.chartjs.org/docs/latest/getting-started/-->
+    <div class="modal hidden">
+      <button class="close-modal">&times;</button>
+      <h1>Day Length Between Two Dates</h1>
+      <p>
+        You can choose the beginning date and the end date from which to compare
+        day length differences!😊
+      </p>
+      <form class="chart_dates">
+        <label for="">Start date</label>
+        <input type="date" id="chart_beginning" />
+        <label for="">End date</label>
+        <input type="date" id="chart_ending" />
+        <input type="submit" value="Get Day Length" id="chart_answer" />
+      </form>
+      <canvas id="myChart"></canvas>
     </div>
+    <div class="overlay hidden"></div>
   </body>
   <!--Chart.js CDN-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
